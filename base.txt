@@ -1,0 +1,21 @@
+-- nombre BD ac_gg_encuesta
+-- Crear la tabla 'usuarios'
+CREATE TABLE usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    correo VARCHAR(50) NOT NULL,
+    pass VARCHAR(15) NOT NULL,
+    rol varchar (1) not null
+);
+
+-- Crear la tabla 'encuesta'
+CREATE TABLE encuesta (
+    id_encuesta INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT,
+    nombre VARCHAR(255) NOT NULL,
+    sexo CHAR(1) NOT NULL,
+    deportes VARCHAR(255) NOT NULL,
+    nivel_ing VARCHAR(100) NOT NULL,
+    temas_fav VARCHAR(255) NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+);
