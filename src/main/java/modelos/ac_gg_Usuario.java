@@ -20,6 +20,12 @@ public class ac_gg_Usuario {
         this.rol=rol;
     }
 
+      public ac_gg_Usuario(String nombre, String correo, String pass) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.pass = pass;
+    }
+      
     public int getId_usuario() {
         return id_usuario;
     }

@@ -19,7 +19,7 @@ public class ac_gg_UsuarioDAO {
         CN = new ac_gg_Conexion_bd();
     }
 
-    //recuperar correo y contrasena
+    //recuperar correo y contrasena PARA INICIAR SESSION
     public ac_gg_Usuario ObtenerUsuarios(String mail, String pass){
     ac_gg_Usuario user = null;
     
@@ -45,12 +45,37 @@ public class ac_gg_UsuarioDAO {
         return user;
     }
     
+//    //Obtener solo ese usuario en base al correo noma
+//     public ac_gg_Usuario ObtenerUsuario(String mail){
+//    ac_gg_Usuario user = null;
+//    
+//      String sql = "SELECT * FROM usuarios WHERE correo=?";
+//        try {
+//            con = CN.getCon();
+//            ps = con.prepareStatement(sql);
+//            ps.setString(1, mail);            
+//            rs = ps.executeQuery();  
+//            
+//             if (rs.next()) {
+//             user = new ac_gg_Usuario();
+////SE PUEDE PEDIR EL ID ACA TAMBIEN 
+//             user.setId_usuario(rs.getInt("id_usuario"));
+//             user.setNombre(rs.getString("nombre"));
+//             user.setCorreo(rs.getString("correo"));
+//             user.setPass(rs.getString("pass"));
+//             user.setRol(rs.getString("rol"));
+//             }           
+//        } catch (SQLException e) {
+//        }
+//        return user;
+//    }
+//    
     //Insertar Usuario.
+    
     public boolean insertUsuario(ac_gg_Usuario usu) {
         String sql = "INSERT INTO usuarios (nombre, correo, pass, rol) "
                 + "VALUES (?, ?, ?, ?)";
         try {
-            System.out.println("Entro al metodo de llmado");
             con = CN.getCon();
             ps = con.prepareStatement(sql);
 
@@ -64,6 +89,23 @@ public class ac_gg_UsuarioDAO {
 
         } catch (SQLException e) {
             System.out.println("Error: " + e);
+            return false;
+        }
+    }
+    
+    //Actualizar info Usuario.
+    public boolean ActualizarUser(ac_gg_Usuario user){
+    String sql = "UPDATE usuarios SET nombre=?, pass=? WHERE correo=?";
+        try {
+               con = CN.getCon();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, user.getNombre());
+            ps.setString(2, user.getPass());
+            ps.setString(3, user.getCorreo());
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

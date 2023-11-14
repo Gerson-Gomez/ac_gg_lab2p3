@@ -16,10 +16,13 @@
             sesion.setAttribute("user_logged", true);
             sesion.setAttribute("id_usuario", user.getId_usuario());
             sesion.setAttribute("nombre", user.getNombre());
+            sesion.setAttribute("correo", user.getCorreo());
+            sesion.setAttribute("pass", user.getPass());
 
             if (user.getRol().contains("u")) {
             //la u es de Usuario
                 response.sendRedirect("perfil_cliente.jsp");
+                
             } else {
                 response.sendRedirect("perfil_admin.jsp");
             }

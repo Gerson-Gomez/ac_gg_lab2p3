@@ -83,6 +83,7 @@
                             <button type="submit" class="btn btn-primary" name ="registro">Registrarse</button>
                         </div>
                     </div>
+                    
                 </div>
             </form>   
         </div>
