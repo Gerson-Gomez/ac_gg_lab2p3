@@ -25,12 +25,12 @@ public class ac_gg_Encuesta {
         this.id_usuario = id_usuario;
     }
 
-    public String getNombre() {
+    public String getName() {
         return name;
     }
 
-    public void setNombre(String nombre) {
-        this.name = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSexo() {
@@ -64,6 +64,7 @@ public class ac_gg_Encuesta {
     public void setTemas_fav(String temas_fav) {
         this.temas_fav = temas_fav;
     }
+
    
    
 }

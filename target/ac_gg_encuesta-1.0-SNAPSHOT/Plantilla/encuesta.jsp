@@ -30,8 +30,8 @@
                             <input type="hidden" id="id" name="id" value="${id}">  
                         
                         <label style="font-weight: bold;">Nombre:</label>
-                        <input type="text" id="nombree" name="nombree" value="${nombre}" class="form-control" disabled>                                
-
+                        <input type="text" value="${nombre}" class="form-control"  disabled>                                
+                        <input type="hidden"  name="name" value="${nombre}" >  
                         <br>                 
                         <label style="font-weight: bold;">Género:</label>
                         <div class="form-check">

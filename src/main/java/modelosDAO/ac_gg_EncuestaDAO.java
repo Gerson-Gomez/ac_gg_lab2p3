@@ -27,7 +27,7 @@ public class ac_gg_EncuestaDAO {
             ps = con.prepareStatement(sql);
 
             ps.setInt(1, datas.getId_usuario());
-            ps.setString(2, datas.getNombre());
+            ps.setString(2, datas.getName());
             ps.setString(3, datas.getSexo());
             ps.setString(4, datas.getDeportes());
             ps.setString(5, datas.getNivel_ing());
@@ -37,7 +37,7 @@ public class ac_gg_EncuestaDAO {
             return filasAfectadas > 0;
             
         } catch (SQLException e) {
-            System.out.println("error de consulta?"+ e);
+            System.out.println("error de consulta? "+ e);
             return false;
         }
         

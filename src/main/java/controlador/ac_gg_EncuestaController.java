@@ -30,7 +30,7 @@ public class ac_gg_EncuestaController extends HttpServlet {
 
                 // Obtener los valores del formulario
                    int id = Integer.parseInt(request.getParameter("id"));                   
-                String nombre = request.getParameter("nombree");
+                String nombre = request.getParameter("name");
                 String genero = request.getParameter("genero");
                 String deporte = request.getParameter("deporte");
                 String nivel_Ingles = request.getParameter("nivel_ingles");
@@ -40,14 +40,19 @@ public class ac_gg_EncuestaController extends HttpServlet {
                 ac_gg_Encuesta encuesta;
                 encuesta = new ac_gg_Encuesta(id, nombre , genero, deporte, nivel_Ingles, interes);
                    System.out.println(" "+id);
+                   System.out.println(" "+nombre);
+                   System.out.println(" "+genero);
+                   System.out.println(" "+deporte);
+                   System.out.println(" "+nivel_Ingles);
+                   System.out.println(" "+interes);
                 // Llamar al método de DAO para insertar la encuesta
                 boolean agregado = encuestaDAO.insertEncuesta(encuesta);
                 if (agregado) {
-                    response.sendRedirect("../index.jsp");
+                    response.sendRedirect("./VistaCliente/perfil_cliente.jsp");
                     System.out.println("SI ENTRO AL IF");
                 } else {
                     request.setAttribute("mensajeError", "No se pudo agregar la venta.");
-                    System.out.println("error aqui");
+                    System.out.println("error aqui, no se hizo xq nombre se va null");
                 }
             } catch (IOException | ClassNotFoundException e) {
                 request.setAttribute("mensajeError", "Hubo un error al procesar la adición de la venta.");
