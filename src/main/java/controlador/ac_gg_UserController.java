@@ -23,7 +23,7 @@ public class ac_gg_UserController extends HttpServlet {
             //no puedes listar uno solo porque necesita parametro.
             
         //    List<ac_gg_Usuario> consulta = ac_gg_UsuarioDAO.ObtenerUsuario("email@mail.com");
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
         }
         //processRequest(request, response);
     }

@@ -1,6 +1,9 @@
+controlador\ac_gg_EncuestaController.class
 com\mycompany\ac_gg_encuesta\JakartaRestConfiguration.class
 conector\ac_gg_Conexion_bd.class
 controlador\ac_gg_UserController.class
 modelos\ac_gg_Usuario.class
+modelos\ac_gg_Encuesta.class
+modelosDAO\ac_gg_EncuestaDAO.class
 com\mycompany\ac_gg_encuesta\resources\JakartaEE8Resource.class
 modelosDAO\ac_gg_UsuarioDAO.class

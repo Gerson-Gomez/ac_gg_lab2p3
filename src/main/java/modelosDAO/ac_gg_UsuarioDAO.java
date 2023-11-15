@@ -23,7 +23,7 @@ public class ac_gg_UsuarioDAO {
     public ac_gg_Usuario ObtenerUsuarios(String mail, String pass){
     ac_gg_Usuario user = null;
     
-      String sql = "SELECT * FROM usuarios WHERE correo=? AND pass=?";
+      String sql = "SELECT id_usuario, nombre, correo, pass, rol FROM usuarios WHERE correo=? AND pass=?";
         try {
             con = CN.getCon();
             ps = con.prepareStatement(sql);
@@ -39,6 +39,7 @@ public class ac_gg_UsuarioDAO {
              user.setCorreo(rs.getString("correo"));
              user.setPass(rs.getString("pass"));
              user.setRol(rs.getString("rol"));
+             
              }           
         } catch (SQLException e) {
         }
@@ -70,8 +71,8 @@ public class ac_gg_UsuarioDAO {
 //        return user;
 //    }
 //    
-    //Insertar Usuario.
     
+    //Insertar Usuario.    
     public boolean insertUsuario(ac_gg_Usuario usu) {
         String sql = "INSERT INTO usuarios (nombre, correo, pass, rol) "
                 + "VALUES (?, ?, ?, ?)";

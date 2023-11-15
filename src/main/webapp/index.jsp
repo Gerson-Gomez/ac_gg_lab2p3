@@ -3,28 +3,26 @@
 <%@page import="modelosDAO.ac_gg_UsuarioDAO" %>
 
 <%
-    ac_gg_UsuarioDAO userDAO = new ac_gg_UsuarioDAO();
     HttpSession sesion = request.getSession();
-
     if (request.getParameter("btn_ingresar") != null) {
+    
         String correo = request.getParameter("correo");
         String pass = request.getParameter("pass");
-
+        
+        ac_gg_UsuarioDAO userDAO = new ac_gg_UsuarioDAO();
         ac_gg_Usuario user = userDAO.ObtenerUsuarios(correo, pass);
 
         if (user != null) {
-            sesion.setAttribute("user_logged", true);
-            sesion.setAttribute("id_usuario", user.getId_usuario());
+            sesion.setAttribute("id", user.getId_usuario());            
             sesion.setAttribute("nombre", user.getNombre());
             sesion.setAttribute("correo", user.getCorreo());
             sesion.setAttribute("pass", user.getPass());
-
+            sesion.setAttribute("user_logged", true);
             if (user.getRol().contains("u")) {
             //la u es de Usuario
-                response.sendRedirect("perfil_cliente.jsp");
-                
+                response.sendRedirect("VistaCliente/perfil_cliente.jsp");                
             } else {
-                response.sendRedirect("perfil_admin.jsp");
+                response.sendRedirect("VistaAdmin/perfil_admin.jsp");
             }
         }
     }
