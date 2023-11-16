@@ -1,12 +1,28 @@
-<%@page import="java.util.List"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="modelos.ac_gg_Encuesta" %>
+<%@page import="modelosDAO.ac_gg_EncuestaDAO" %>
+<%@page import = "java.time.LocalDate"%>
+
 <%
     HttpSession sesion = request.getSession();
     int id = (int) sesion.getAttribute("id");
     String nombre = (String) sesion.getAttribute("nombre");
     String correo = (String) sesion.getAttribute("correo");
     String pass = (String) sesion.getAttribute("pass");
+
+    //valida si existe la encuesta
+    ac_gg_EncuestaDAO EncuestaDAO = new ac_gg_EncuestaDAO();
+    ac_gg_Encuesta encuesta = EncuestaDAO.obtenerEncuesta(id);
+    System.out.println("idssss " + id);
+
+    if (encuesta != null) {
+        out.println("<script>");
+        out.println("alert('Ya completó su encuesta.');");
+        out.println("window.location.href='../VistaCliente/perfil_cliente.jsp'");
+        out.println("</script>");
+    } else {    
+        
+    }
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,7 +35,7 @@
         <jsp:include page="../Plantilla/nav_user.jsp"></jsp:include>
         </head>
         <body>
-            <div class="container mt-3">
+            <div class="container mt-3 ">
                 <div class="card bg-light">
                     <div class="card-body ">
                         <h5 class="card-title" style="text-align: center">Encuesta 2023</h5>
@@ -28,7 +44,7 @@
                         <form action="../ac_gg_EncuestaController" method="post"> 
                             <input type="hidden" name="action" value="add">
                             <input type="hidden" id="id" name="id" value="${id}">  
-                        
+
                         <label style="font-weight: bold;">Nombre:</label>
                         <input type="text" value="${nombre}" class="form-control"  disabled>                                
                         <input type="hidden"  name="name" value="${nombre}" >  
@@ -118,7 +134,12 @@
                                     </div>
                                 </div>
 
-                            </div>
+                            </div>                            
+                            <!-- Dentro del formulario -->
+<input type="hidden" name="fecha" value="<%= LocalDate.now() %>">
+
+
+
                         </div>
 
                         <br>
@@ -131,7 +152,7 @@
                 </div>
             </div>
             <!-- Script de JavaScript para mostrar el alert con los datos -->
-           
+
             <!-- Agregar el CDN de Bootstrap 5.0 (scripts) -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
             <!-- Scripts -->
@@ -141,3 +162,4 @@
         </div>
     </body>
 </html>
+

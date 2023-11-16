@@ -81,6 +81,7 @@
                         </div>
                         <div class="form-group  text-center mt-4">
                             <button type="submit" class="btn btn-primary" name ="registro">Registrarse</button>
+                            <a  class="btn btn-secondary"href="./index.jsp" >Volver</a>
                         </div>
                     </div>
                     

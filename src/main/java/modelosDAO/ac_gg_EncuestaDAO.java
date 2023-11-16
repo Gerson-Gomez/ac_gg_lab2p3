@@ -3,9 +3,12 @@ package modelosDAO;
 import conector.ac_gg_Conexion_bd;
 import modelos.ac_gg_Encuesta;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ac_gg_EncuestaDAO {
 
@@ -20,8 +23,8 @@ public class ac_gg_EncuestaDAO {
 
     //insertar encuesta desde vista usuario.
     public boolean insertEncuesta(ac_gg_Encuesta datas) {
-        String sql = "INSERT INTO encuesta (id_usuario, nombre, sexo, deportes, nivel_ing, temas_fav) "
-                + "VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO encuesta (id_usuario, nombre, sexo, deportes, nivel_ing, temas_fav, fecha) "
+                + "VALUES(?,?,?,?,?,?,?)";
         try {
             con = CN.getCon();
             ps = con.prepareStatement(sql);
@@ -32,15 +35,86 @@ public class ac_gg_EncuestaDAO {
             ps.setString(4, datas.getDeportes());
             ps.setString(5, datas.getNivel_ing());
             ps.setString(6, datas.getTemas_fav());
+            Date fechaSql = Date.valueOf(datas.getFecha());
+
+            // Establece la fecha en la PreparedStatement
+            ps.setDate(7, fechaSql);
 
             int filasAfectadas = ps.executeUpdate();
             return filasAfectadas > 0;
-            
+
         } catch (SQLException e) {
-            System.out.println("error de consulta? "+ e);
+            System.out.println("error de consulta? " + e);
             return false;
         }
-        
+
     }
 
+    //Verificar si ya existe la encuesta para no volver a hacerla.    
+    public ac_gg_Encuesta obtenerEncuesta(int id) {
+        ac_gg_Encuesta encuesta = null;
+        String sql = "SELECT * FROM encuesta WHERE id_usuario=?";
+        try {
+            con = CN.getCon();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                encuesta = new ac_gg_Encuesta();
+                encuesta.setId_encuesta(rs.getInt("id_encuesta"));
+                encuesta.setId_usuario(rs.getInt("id_usuario"));
+                encuesta.setName(rs.getString("nombre"));
+                encuesta.setSexo(rs.getString("sexo"));
+                encuesta.setDeportes(rs.getString("deportes"));
+                encuesta.setNivel_ing(rs.getString("nivel_ing"));
+                encuesta.setTemas_fav(rs.getString("temas_fav"));
+                // Obtiene la fecha de la base de datos como java.sql.Date
+                Date fechaSql = rs.getDate("fecha");
+                encuesta.setFecha(fechaSql.toLocalDate());
+
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR EN PEDIR LA ENCUESTA POR ID: " + e);
+        }
+
+        return encuesta;
+    }
+    
+    
+    //Ver los datos de la encuesta insertada.
+    public List <ac_gg_Encuesta> VerEncuesta(int id) {
+        List <ac_gg_Encuesta> lista = new ArrayList<>();
+        
+        //ac_gg_Encuesta encuesta = new ac_gg_Encuesta();
+        String sql = "SELECT e.id_encuesta, u.nombre, u.correo, e.sexo, e.deportes, e.nivel_ing, e.temas_fav, e.fecha "
+                + "FROM usuarios u "
+                + "JOIN encuesta e ON u.id_usuario = e.id_usuario "
+                + "WHERE u.id_usuario = ?";
+        try {
+            con = CN.getCon();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                ac_gg_Encuesta encuestasL = new ac_gg_Encuesta();
+                //encuesta = new ac_gg_Encuesta();
+                encuestasL.setId_encuesta(rs.getInt("id_encuesta"));                
+                encuestasL.setName(rs.getString("nombre"));
+                encuestasL.setCorreo(rs.getString("correo"));
+                encuestasL.setSexo(rs.getString("sexo"));
+                encuestasL.setDeportes(rs.getString("deportes"));
+                encuestasL.setNivel_ing(rs.getString("nivel_ing"));
+                encuestasL.setTemas_fav(rs.getString("temas_fav"));
+                
+                Date fechaSql = rs.getDate("fecha");
+                encuestasL.setFecha(fechaSql.toLocalDate());
+                lista.add(encuestasL);
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR EN PEDIR LA ENCUESTA POR ID: " + e);
+        }
+        return lista;
+    }
 }

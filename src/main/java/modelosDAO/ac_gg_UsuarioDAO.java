@@ -20,32 +20,32 @@ public class ac_gg_UsuarioDAO {
     }
 
     //recuperar correo y contrasena PARA INICIAR SESSION
-    public ac_gg_Usuario ObtenerUsuarios(String mail, String pass){
-    ac_gg_Usuario user = null;
-    
-      String sql = "SELECT id_usuario, nombre, correo, pass, rol FROM usuarios WHERE correo=? AND pass=?";
+    public ac_gg_Usuario ObtenerUsuarios(String mail, String pass) {
+        ac_gg_Usuario user = null;
+
+        String sql = "SELECT id_usuario, nombre, correo, pass, rol FROM usuarios WHERE correo=? AND pass=?";
         try {
             con = CN.getCon();
             ps = con.prepareStatement(sql);
             ps.setString(1, mail);
             ps.setString(2, pass);
-            rs = ps.executeQuery();  
-            
-             if (rs.next()) {
-             user = new ac_gg_Usuario();
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                user = new ac_gg_Usuario();
 //SE PUEDE PEDIR EL ID ACA TAMBIEN 
-             user.setId_usuario(rs.getInt("id_usuario"));
-             user.setNombre(rs.getString("nombre"));
-             user.setCorreo(rs.getString("correo"));
-             user.setPass(rs.getString("pass"));
-             user.setRol(rs.getString("rol"));
-             
-             }           
+                user.setId_usuario(rs.getInt("id_usuario"));
+                user.setNombre(rs.getString("nombre"));
+                user.setCorreo(rs.getString("correo"));
+                user.setPass(rs.getString("pass"));
+                user.setRol(rs.getString("rol"));
+
+            }
         } catch (SQLException e) {
         }
         return user;
     }
-    
+
 //    //Obtener solo ese usuario en base al correo noma
 //     public ac_gg_Usuario ObtenerUsuario(String mail){
 //    ac_gg_Usuario user = null;
@@ -71,7 +71,6 @@ public class ac_gg_UsuarioDAO {
 //        return user;
 //    }
 //    
-    
     //Insertar Usuario.    
     public boolean insertUsuario(ac_gg_Usuario usu) {
         String sql = "INSERT INTO usuarios (nombre, correo, pass, rol) "
@@ -93,12 +92,12 @@ public class ac_gg_UsuarioDAO {
             return false;
         }
     }
-    
+
     //Actualizar info Usuario.
-    public boolean ActualizarUser(ac_gg_Usuario user){
-    String sql = "UPDATE usuarios SET nombre=?, pass=? WHERE correo=?";
+    public boolean ActualizarUser(ac_gg_Usuario user) {
+        String sql = "UPDATE usuarios SET nombre=?, pass=? WHERE correo=?";
         try {
-               con = CN.getCon();
+            con = CN.getCon();
             ps = con.prepareStatement(sql);
             ps.setString(1, user.getNombre());
             ps.setString(2, user.getPass());

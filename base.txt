@@ -17,5 +17,6 @@ CREATE TABLE encuesta (
     deportes VARCHAR(255) NOT NULL,
     nivel_ing VARCHAR(100) NOT NULL,
     temas_fav VARCHAR(255) NOT NULL,
+    fecha date not null,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );

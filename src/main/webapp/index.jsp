@@ -5,25 +5,28 @@
 <%
     HttpSession sesion = request.getSession();
     if (request.getParameter("btn_ingresar") != null) {
-    
+
         String correo = request.getParameter("correo");
         String pass = request.getParameter("pass");
-        
+
         ac_gg_UsuarioDAO userDAO = new ac_gg_UsuarioDAO();
         ac_gg_Usuario user = userDAO.ObtenerUsuarios(correo, pass);
 
         if (user != null) {
-            sesion.setAttribute("id", user.getId_usuario());            
+            sesion.setAttribute("id", user.getId_usuario());
             sesion.setAttribute("nombre", user.getNombre());
             sesion.setAttribute("correo", user.getCorreo());
             sesion.setAttribute("pass", user.getPass());
             sesion.setAttribute("user_logged", true);
             if (user.getRol().contains("u")) {
-            //la u es de Usuario
-                response.sendRedirect("VistaCliente/perfil_cliente.jsp");                
+                //la u es de Usuario
+                response.sendRedirect("VistaCliente/perfil_cliente.jsp");
             } else {
                 response.sendRedirect("VistaAdmin/perfil_admin.jsp");
             }
+        } else {
+            out.println("<script>alert('Datos incorrectos.');</script>");
+            sesion.setAttribute("user_logged", false);
         }
     }
 %>
@@ -41,26 +44,26 @@
         <div class="container mt-5">
 
             <div class="card text-center" style="max-width: 18rem; margin: 0 auto;">
-               
-                    <div class="card-header">
-                        <h5 class="card-title">Encuesta2023!</h5>
-                    </div>
-                     <form method="post">
+
+                <div class="card-header">
+                    <h5 class="card-title">Encuesta2023!</h5>
+                </div>
+                <form method="post">
                     <div class="card-body">
                         <p class="card-text">Bienvenido, por favor ingresa tu correo y contraseña.</p>
-                 
-                            <div class="mb-3">
-                                <label for="correo" class="form-label">Correo Electrónico:</label>
-                                <input type="email" class="form-control" name="correo" placeholder="correo@example.com" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="pass" class="form-label">Contraseña:</label>
-                                <input type="password" class="form-control" name="pass" required>
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary"  name="btn_ingresar">Iniciar Sesión</button>
-                            </div>
-                     
+
+                        <div class="mb-3">
+                            <label for="correo" class="form-label">Correo Electrónico:</label>
+                            <input type="email" class="form-control" name="correo" placeholder="correo@example.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pass" class="form-label">Contraseña:</label>
+                            <input type="password" class="form-control" name="pass" required>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary"  name="btn_ingresar">Iniciar Sesión</button>
+                        </div>
+
 
                         <div class="mb-3">
                             <div class="text-center">
