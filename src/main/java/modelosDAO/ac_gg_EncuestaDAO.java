@@ -185,10 +185,7 @@ public class ac_gg_EncuestaDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Aquí puedes cerrar la conexión, el statement y el resultSet si es necesario
-            // Esto depende de la lógica específica de tu aplicación y si estás usando try-with-resources.
         }
-
         return resultados;
     }
 
@@ -232,10 +229,37 @@ public class ac_gg_EncuestaDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Cerrar recursos
-            // ...
         }
-
         return resultados;
+    }
+
+    public void eliminarEncuestas(String[] ids) {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = CN.getCon();
+            String sql = "DELETE FROM encuesta WHERE id_encuesta IN (?)";
+            StringBuilder placeholders = new StringBuilder();
+
+            for (int i = 0; i < ids.length; i++) {
+                placeholders.append("?");
+                if (i < ids.length - 1) {
+                    placeholders.append(",");
+                }
+            }
+
+            sql = sql.replace("?", placeholders.toString());
+
+            ps = con.prepareStatement(sql);
+
+            for (int i = 0; i < ids.length; i++) {
+                ps.setString(i + 1, ids[i]);
+            }
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {}
     }
 }

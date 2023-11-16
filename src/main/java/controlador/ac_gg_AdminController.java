@@ -73,6 +73,21 @@ public class ac_gg_AdminController extends HttpServlet {
             } catch (ClassNotFoundException | ServletException | IOException ex) {
                 ex.printStackTrace();
             }
+        } else if ("deleteSelected".equals(action)) {
+            String[] selectedItems = request.getParameterValues("selectedItems");
+
+            if (selectedItems != null && selectedItems.length > 0) {
+                try {
+                    ac_gg_EncuestaDAO encuestaDAO = new ac_gg_EncuestaDAO();
+                    // Llama a tu método de eliminación del DAO pasando los IDs de las encuestas seleccionadas
+                    encuestaDAO.eliminarEncuestas(selectedItems);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Redirige a la página después de eliminar
+            response.sendRedirect(request.getContextPath() + "/ac_gg_AdminController");
         }
     }
 
