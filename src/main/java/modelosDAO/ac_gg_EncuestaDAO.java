@@ -80,11 +80,10 @@ public class ac_gg_EncuestaDAO {
 
         return encuesta;
     }
-    
-    
+
     //Ver los datos de la encuesta insertada.
-    public List <ac_gg_Encuesta> VerEncuesta(int id) {
-        List <ac_gg_Encuesta> lista = new ArrayList<>();        
+    public List<ac_gg_Encuesta> VerEncuesta(int id) {
+        List<ac_gg_Encuesta> lista = new ArrayList<>();
         //ac_gg_Encuesta encuesta = new ac_gg_Encuesta();
         String sql = "SELECT e.id_encuesta, u.nombre, u.correo, e.sexo, e.deportes, e.nivel_ing, e.temas_fav, e.fecha "
                 + "FROM usuarios u "
@@ -99,14 +98,14 @@ public class ac_gg_EncuestaDAO {
             if (rs.next()) {
                 ac_gg_Encuesta encuestasL = new ac_gg_Encuesta();
                 //encuesta = new ac_gg_Encuesta();
-                encuestasL.setId_encuesta(rs.getInt("id_encuesta"));                
+                encuestasL.setId_encuesta(rs.getInt("id_encuesta"));
                 encuestasL.setName(rs.getString("nombre"));
                 encuestasL.setCorreo(rs.getString("correo"));
                 encuestasL.setSexo(rs.getString("sexo"));
                 encuestasL.setDeportes(rs.getString("deportes"));
                 encuestasL.setNivel_ing(rs.getString("nivel_ing"));
                 encuestasL.setTemas_fav(rs.getString("temas_fav"));
-                
+
                 Date fechaSql = rs.getDate("fecha");
                 encuestasL.setFecha(fechaSql.toLocalDate());
                 lista.add(encuestasL);
@@ -116,14 +115,14 @@ public class ac_gg_EncuestaDAO {
         }
         return lista;
     }
-    
+
     //Ver los datos de la encuesta insertada.
-    public List <ac_gg_Encuesta> VerEncuestaAdmin() {
-        List <ac_gg_Encuesta> lista = new ArrayList<>();        
+    public List<ac_gg_Encuesta> VerEncuestaAdmin() {
+        List<ac_gg_Encuesta> lista = new ArrayList<>();
         //ac_gg_Encuesta encuesta = new ac_gg_Encuesta();
         String sql = "SELECT e.id_encuesta, u.nombre, u.correo, e.sexo, e.deportes, e.nivel_ing, e.temas_fav, e.fecha "
                 + "FROM usuarios u "
-                + "JOIN encuesta e ON u.id_usuario = e.id_usuario";                
+                + "JOIN encuesta e ON u.id_usuario = e.id_usuario";
         try {
             con = CN.getCon();
             ps = con.prepareStatement(sql);
@@ -133,14 +132,14 @@ public class ac_gg_EncuestaDAO {
             while (rs.next()) {
                 ac_gg_Encuesta encuestasL = new ac_gg_Encuesta();
                 //encuesta = new ac_gg_Encuesta();
-                encuestasL.setId_encuesta(rs.getInt("id_encuesta"));                
+                encuestasL.setId_encuesta(rs.getInt("id_encuesta"));
                 encuestasL.setName(rs.getString("nombre"));
                 encuestasL.setCorreo(rs.getString("correo"));
                 encuestasL.setSexo(rs.getString("sexo"));
                 encuestasL.setDeportes(rs.getString("deportes"));
                 encuestasL.setNivel_ing(rs.getString("nivel_ing"));
                 encuestasL.setTemas_fav(rs.getString("temas_fav"));
-                
+
                 Date fechaSql = rs.getDate("fecha");
                 encuestasL.setFecha(fechaSql.toLocalDate());
                 lista.add(encuestasL);
@@ -149,5 +148,46 @@ public class ac_gg_EncuestaDAO {
             System.out.println("ERROR EN PEDIR LA ENCUESTA POR ID: " + e);
         }
         return lista;
+    }
+
+    public List<ac_gg_Encuesta> buscarPorNombreUsuario(String nombreUsuario) {
+        List<ac_gg_Encuesta> resultados = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = CN.getCon();
+            String query = "SELECT e.id_encuesta, u.nombre, u.correo, e.sexo, e.deportes, e.nivel_ing, e.temas_fav, e.fecha "
+                    + "FROM usuarios u "
+                    + "JOIN encuesta e ON u.id_usuario = e.id_usuario "
+                    + "WHERE u.nombre LIKE ?";
+            statement = connection.prepareStatement(query);
+            statement.setString(1, "%" + nombreUsuario + "%");
+
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                ac_gg_Encuesta encuestasL = new ac_gg_Encuesta();
+                encuestasL.setId_encuesta(resultSet.getInt("id_encuesta"));
+                encuestasL.setName(resultSet.getString("nombre"));
+                encuestasL.setCorreo(resultSet.getString("correo"));
+                encuestasL.setSexo(resultSet.getString("sexo"));
+                encuestasL.setDeportes(resultSet.getString("deportes"));
+                encuestasL.setNivel_ing(resultSet.getString("nivel_ing"));
+                encuestasL.setTemas_fav(resultSet.getString("temas_fav"));
+
+                Date fechaSql = resultSet.getDate("fecha");
+                encuestasL.setFecha(fechaSql.toLocalDate());
+                resultados.add(encuestasL);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Aquí puedes cerrar la conexión, el statement y el resultSet si es necesario
+            // Esto depende de la lógica específica de tu aplicación y si estás usando try-with-resources.
+        }
+
+        return resultados;
     }
 }

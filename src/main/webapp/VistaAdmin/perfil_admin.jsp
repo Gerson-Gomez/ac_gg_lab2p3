@@ -13,6 +13,15 @@
             <div class="container mt-5">
                 <div class="card-body">
                     <h3 class="card-title mb-4">Información de todas las encuestas recolectadas.</h3>
+                    
+                    <form method="post" action="ac_gg_AdminController">
+                        <input type="hidden" name="action" value="search">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Buscar por nombre de usuario" name="searchUsuario">
+                            <button type="submit" class="btn btn-warning">Buscar</button>
+                            <a href="ac_gg_AdminController" class="btn btn-secondary">Mostrar Todos</a>
+                        </div>
+                    </form>
 
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
