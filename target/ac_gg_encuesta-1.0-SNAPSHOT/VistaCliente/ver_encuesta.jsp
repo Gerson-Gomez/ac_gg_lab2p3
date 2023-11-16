@@ -14,7 +14,7 @@
         <div class="container mt-5">
             
                         <div class="card-body">
-                            <h1 class="card-title mb-4">Información Recolectada</h1>
+                            <h1 class="card-title mb-4">Información de tu encuesta.</h1>
                             
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped">

@@ -22,7 +22,8 @@
                 //la u es de Usuario
                 response.sendRedirect("VistaCliente/perfil_cliente.jsp");
             } else {
-                response.sendRedirect("VistaAdmin/perfil_admin.jsp");
+            //LLAMAR AL SERVLET PARA Q CARGUE LOS DATOS
+                response.sendRedirect("./ac_gg_AdminController");
             }
         } else {
             out.println("<script>alert('Datos incorrectos.');</script>");

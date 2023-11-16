@@ -84,8 +84,7 @@ public class ac_gg_EncuestaDAO {
     
     //Ver los datos de la encuesta insertada.
     public List <ac_gg_Encuesta> VerEncuesta(int id) {
-        List <ac_gg_Encuesta> lista = new ArrayList<>();
-        
+        List <ac_gg_Encuesta> lista = new ArrayList<>();        
         //ac_gg_Encuesta encuesta = new ac_gg_Encuesta();
         String sql = "SELECT e.id_encuesta, u.nombre, u.correo, e.sexo, e.deportes, e.nivel_ing, e.temas_fav, e.fecha "
                 + "FROM usuarios u "
@@ -98,6 +97,40 @@ public class ac_gg_EncuestaDAO {
             rs = ps.executeQuery();
 
             if (rs.next()) {
+                ac_gg_Encuesta encuestasL = new ac_gg_Encuesta();
+                //encuesta = new ac_gg_Encuesta();
+                encuestasL.setId_encuesta(rs.getInt("id_encuesta"));                
+                encuestasL.setName(rs.getString("nombre"));
+                encuestasL.setCorreo(rs.getString("correo"));
+                encuestasL.setSexo(rs.getString("sexo"));
+                encuestasL.setDeportes(rs.getString("deportes"));
+                encuestasL.setNivel_ing(rs.getString("nivel_ing"));
+                encuestasL.setTemas_fav(rs.getString("temas_fav"));
+                
+                Date fechaSql = rs.getDate("fecha");
+                encuestasL.setFecha(fechaSql.toLocalDate());
+                lista.add(encuestasL);
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR EN PEDIR LA ENCUESTA POR ID: " + e);
+        }
+        return lista;
+    }
+    
+    //Ver los datos de la encuesta insertada.
+    public List <ac_gg_Encuesta> VerEncuestaAdmin() {
+        List <ac_gg_Encuesta> lista = new ArrayList<>();        
+        //ac_gg_Encuesta encuesta = new ac_gg_Encuesta();
+        String sql = "SELECT e.id_encuesta, u.nombre, u.correo, e.sexo, e.deportes, e.nivel_ing, e.temas_fav, e.fecha "
+                + "FROM usuarios u "
+                + "JOIN encuesta e ON u.id_usuario = e.id_usuario";                
+        try {
+            con = CN.getCon();
+            ps = con.prepareStatement(sql);
+            //ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
                 ac_gg_Encuesta encuestasL = new ac_gg_Encuesta();
                 //encuesta = new ac_gg_Encuesta();
                 encuestasL.setId_encuesta(rs.getInt("id_encuesta"));                

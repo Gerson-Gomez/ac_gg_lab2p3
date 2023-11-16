@@ -1,4 +1,5 @@
 controlador\ac_gg_EncuestaController.class
+controlador\ac_gg_AdminController.class
 com\mycompany\ac_gg_encuesta\JakartaRestConfiguration.class
 conector\ac_gg_Conexion_bd.class
 controlador\ac_gg_UserController.class
