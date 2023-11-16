@@ -8,6 +8,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Administrador</title>
     <jsp:include page="../Plantilla/nav_admin.jsp"></jsp:include>
+    <script>
+        function confirmarEliminar() {
+            return confirm('¿Estás seguro de que deseas eliminar las encuestas seleccionadas?');
+        }
+    </script>
 </head>
 <body>
     <div class="container mt-5">
@@ -24,7 +29,7 @@
                 </div>
             </form>
 
-            <form method="post" action="ac_gg_AdminController">
+            <form method="post" action="ac_gg_AdminController" onsubmit="return confirmarEliminar();">
                 <input type="hidden" name="action" value="deleteSelected">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
