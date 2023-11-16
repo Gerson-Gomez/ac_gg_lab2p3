@@ -13,10 +13,10 @@
     <jsp:include page="../Plantilla/nav_admin.jsp"></jsp:include>
 </head>
 
-<body>
+<body class="justify-content-center aling-items-center">
     <div class="container mt-5">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
                         <h5>Resumen de la encuesta</h5>
