@@ -36,11 +36,23 @@ public class ac_gg_AdminController extends HttpServlet {
         String action = request.getParameter("action");
 
         if ("search".equals(action)) {
-            String searchTerm = request.getParameter("searchUsuario");
+            String nombreUsuario = request.getParameter("searchUsuario");
+            String fechaBusqueda = request.getParameter("fechaBusqueda");
 
             try {
                 ac_gg_EncuestaDAO encuestaDAO = new ac_gg_EncuestaDAO();
-                List<ac_gg_Encuesta> resultados = encuestaDAO.buscarPorNombreUsuario(searchTerm);
+                List<ac_gg_Encuesta> resultados;
+
+                if (nombreUsuario != null && !nombreUsuario.isEmpty()) {
+                    // Realizar búsqueda por nombre
+                    resultados = encuestaDAO.buscarPorNombreUsuario(nombreUsuario);
+                } else if (fechaBusqueda != null && !fechaBusqueda.isEmpty()) {
+                    // Realizar búsqueda por fecha
+                    resultados = encuestaDAO.buscarPorFecha(fechaBusqueda);
+                } else {
+                    // Mostrar todas las encuestas de administrador
+                    resultados = encuestaDAO.VerEncuestaAdmin();
+                }
 
                 request.setAttribute("consulta", resultados);
 
@@ -49,9 +61,7 @@ public class ac_gg_AdminController extends HttpServlet {
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
-        }
-
-        if ("showAll".equals(action)) {
+        } else if ("showAll".equals(action)) {
             try {
                 ac_gg_EncuestaDAO encuestaDAO = new ac_gg_EncuestaDAO();
                 List<ac_gg_Encuesta> consulta = encuestaDAO.VerEncuestaAdmin();

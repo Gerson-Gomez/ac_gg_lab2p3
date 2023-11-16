@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -186,6 +187,53 @@ public class ac_gg_EncuestaDAO {
         } finally {
             // Aquí puedes cerrar la conexión, el statement y el resultSet si es necesario
             // Esto depende de la lógica específica de tu aplicación y si estás usando try-with-resources.
+        }
+
+        return resultados;
+    }
+
+    public List<ac_gg_Encuesta> buscarPorFecha(String fechaBusqueda) {
+        List<ac_gg_Encuesta> resultados = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = CN.getCon();
+            String query = "SELECT e.id_encuesta, u.nombre, u.correo, e.sexo, e.deportes, e.nivel_ing, e.temas_fav, e.fecha "
+                    + "FROM usuarios u "
+                    + "JOIN encuesta e ON u.id_usuario = e.id_usuario "
+                    + "WHERE e.fecha = ?";
+            statement = connection.prepareStatement(query);
+
+            // Convierte la fecha de String a LocalDate
+            LocalDate fechaLocalDate = LocalDate.parse(fechaBusqueda);
+            Date fechaSql = Date.valueOf(fechaLocalDate);
+
+            statement.setDate(1, fechaSql);
+
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                ac_gg_Encuesta encuestasL = new ac_gg_Encuesta();
+                encuestasL.setId_encuesta(resultSet.getInt("id_encuesta"));
+                encuestasL.setName(resultSet.getString("nombre"));
+                encuestasL.setCorreo(resultSet.getString("correo"));
+                encuestasL.setSexo(resultSet.getString("sexo"));
+                encuestasL.setDeportes(resultSet.getString("deportes"));
+                encuestasL.setNivel_ing(resultSet.getString("nivel_ing"));
+                encuestasL.setTemas_fav(resultSet.getString("temas_fav"));
+
+                Date fechaSqlResultado = resultSet.getDate("fecha");
+                encuestasL.setFecha(fechaSqlResultado.toLocalDate());
+
+                resultados.add(encuestasL);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar recursos
+            // ...
         }
 
         return resultados;
